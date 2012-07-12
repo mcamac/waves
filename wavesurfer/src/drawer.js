@@ -60,17 +60,17 @@ WaveSurfer.Drawer = {
         /* Right channel. */
         chan = buffer.getChannelData(1);
 
-        if (chan) {
-            for (i = 0; i < len; i++) {
-                value = h * Math.max.apply(
-                    Math, slice.call(chan, i * k, (i + 1) * k)
-                );
-                this.cc.fillRect(
-                    i, h, lW, value
-                );
-            }
-        }
-    },
+        // if (chan) {
+        //     for (i = 0; i < len; i++) {
+        //         value = h * Math.max.apply(
+        //             Math, slice.call(chan, i * k, (i + 1) * k)
+        //         );
+        //         this.cc.fillRect(
+        //             i, h, lW, value
+        //         );
+        //     }
+        // }
+        },
 
     bindClick: function () {
         var self = this;
