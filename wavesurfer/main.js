@@ -35,7 +35,7 @@
             waveDrawer.drawBuffer(webAudio.currentBuffer);
         });
     };
-
+    
 
     /* Load file via Ajax. */
     var audioUrl = 'http://geo-samples.beatport.com//lofi//3366181.LOFI.mp3';
