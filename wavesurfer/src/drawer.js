@@ -308,7 +308,7 @@ WaveSurfer.Drawer = {
         //update the current region from the cached / this could potentially do zooming too
         this.cc.clearRect(0,0,this.width, this.height);
         
-        var zoomfactor=10 || this.zoomfactor;
+        var zoomfactor=1 || this.zoomfactor;
 
         this.xx=this.xx+(this.cursorStep);
 
