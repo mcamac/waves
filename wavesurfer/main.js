@@ -58,6 +58,9 @@
     //fix this so that we don't have to wait for the entire file to load before drawing begins 
     // draw + load at the same time!
     var loadAudio = function (data) {
+
+        //fix some glitches load while playing
+
         webAudio.loadData(data, function () {
             cachedDrawer.drawBuffer(webAudio.currentBuffer);
             waveDrawer.cursorStep=cachedDrawer.cursorStep;  
@@ -80,6 +83,7 @@
     /* Load file via drag'n'drop. */
     var reader = new globals.FileReader();
     reader.addEventListener('load', function (e) {
+        console.log('file dropped');
         loadAudio(e.target.result);
     }, false);
 
