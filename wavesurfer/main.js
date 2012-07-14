@@ -68,8 +68,8 @@
 
 
     /* Load file via Ajax. */
-    var audioUrl = 'http://geo-samples.beatport.com//lofi//3366181.LOFI.mp3';
-    //var audioUrl= 'http://giraph.mcamac.com/wavesurfer/media/test.mp3';
+    //var audioUrl = 'http://geo-samples.beatport.com//lofi//3366181.LOFI.mp3';
+    var audioUrl= 'http://giraph.mcamac.com/wavesurfer/media/bass.mp3';
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'arraybuffer';
     xhr.onload = function () { loadAudio(this.response); };
