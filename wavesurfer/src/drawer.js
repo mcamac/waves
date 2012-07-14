@@ -180,7 +180,7 @@ WaveSurfer.Drawer = {
 
         if (chan) {
 
-            for (i = 0; i < len; i++) {
+            for (i = 0; i < 200; i++) {
                 
                 var temp=[]; templength=2*h;
                 while (templength--){
