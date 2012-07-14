@@ -44,9 +44,9 @@ WaveSurfer.Drawer = {
             i, value, chan;
 
 
-        var thisbox= document.querySelector('#cachedWave');
-        thisbox.width=len;
-        this.width=len;
+        // var thisbox= document.querySelector('#cachedWave');
+        // thisbox.width=len;   
+        // this.width=len;
         
         console.log(this.width);
         this.cursorStep = this.width / this.frames;
