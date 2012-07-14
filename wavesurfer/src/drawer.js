@@ -207,7 +207,9 @@ WaveSurfer.Drawer = {
                     waveImage.data[index+1]=0;
                     waveImage.data[index+2]=200;
                     if (temp[y]){
+                        if(i==85){
                         console.log('i'+i+',y'+y+',temp[y]'+temp[y]);
+                        }
                         var alpha=100+~~(155*(temp[y]/k));
                         waveImage.data[index+3]=Math.min(255,alpha);
                         //better way to assign alpha values
