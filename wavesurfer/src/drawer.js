@@ -215,6 +215,8 @@ WaveSurfer.Drawer = {
                 }
 
             }
+
+            console.log('gets here');
             this.cc.putImageData(waveImage,0,0);
 
         }
