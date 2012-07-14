@@ -42,12 +42,11 @@ WaveSurfer.Drawer = {
             len = ~~(buffer.length / k),
             lW = 1,
             i, value, chan;
-
-
-        // var thisbox= document.querySelector('#cachedWave');
-        // thisbox.width=len;   
-        // this.width=len;
+  
         
+        this.width=this.canvas.width=len;
+
+        console.log(len);
         console.log(this.width);
         this.cursorStep = this.width / this.frames;
         console.log('csstep'+this.cursorStep);
@@ -173,10 +172,9 @@ WaveSurfer.Drawer = {
 
         //version4 interpolation
         /* Left channel. */
-        chan = buffer.getChannelData(0);
 
-        console.log(Math.max.apply(Math, slice.call(chan,5000,5200)));
-        console.log(Math.min.apply(Math, slice.call(chan,5000,5200)));
+
+        chan = buffer.getChannelData(0);
 
         var waveImage=this.cc.createImageData(this.width, this.height);
 
@@ -312,6 +310,8 @@ WaveSurfer.Drawer = {
 
         this.xx=this.xx+(this.cursorStep);
 
+
+        //fix lag
 
         if(~~(this.xx)<~~(zoomfactor*this.width/2)){
             this.cc.drawImage(this.cachedCanvas,0,0,(~~(zoomfactor*this.width/2+this.xx)-1),this.height,~~(this.width/2-this.xx/zoomfactor),0,~~(this.width/2+this.xx/zoomfactor)-1,this.height);
