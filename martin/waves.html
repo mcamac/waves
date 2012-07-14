@@ -1,1 +1,72 @@
-waves waves waves
+<html>
+<head>
+	<title> simulatenous </title>
+	<script type="text/javascript">
+		(function (globals, exports) {
+			'use strict';
+
+			globals.requestAnimationFrame = globals.webkitRequestAnimationFrame;
+
+			exports.Waver = {};
+		}(this, this));
+
+		Waver.Drawer = {
+			FRAME_TIME: 1000 / 60,
+
+			init: function (canvas, webAudio, params) {
+				params = params || {};
+
+				this.canvas = canvas;
+				this.webAudio = webAudio;
+				this.initCanvas(params);
+
+				this.cursor = params.cursor;
+				this.pos = this.maxPos = 0;
+			},
+
+			initCanvas: function (params) {
+				this.cc = this.canvas.getContext('2d');
+				this.width = this.canvas.width;
+				this.height = this.canvas.height;
+
+				if (params.color) {
+					this.cc.fillStyle = params.color;
+					this.cc.strokeStyle = params.color;
+				}
+			},
+
+			drawBuffer: function (buffer) {
+				this.frames = (buffer.duration * 1000) / this.FRAME_TIME;
+				this.cursorStep = this.width / this.frames;
+
+				this.cc.clearRect(0, 0, this.width, this.height);
+			}
+		}
+
+		Waver.WebAudio = {
+			ac: new window.webkitAudioContent,
+
+			init: function (params) {
+				params = params || {};
+
+				this.destination = params.destination || this.ac.destination;
+
+				this.analyser = this.ac.createAnalyser();
+				this.analyser.smoothingTimeConstant = 0.3;
+				this.analyser.fftSize = 1024;
+				this.analyser.connect(this.destination);
+
+				this.dataArray = new Unit8Array(this.analyser.frequencyBinCount);
+			}
+		}
+	</script>
+</head>	
+<body>
+	<h1>scrolling waveform</h1>
+	<div class="timeline">
+		<div class="cursor" id="wave-curson"></div>
+		<canvas id="wave" width="1024" height="256"></canvas>
+
+	</div>
+</body>
+</html>
