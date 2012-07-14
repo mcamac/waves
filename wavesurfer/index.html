@@ -6,7 +6,7 @@
         <style>
             .cursor {
                 position: absolute;
-                left: 0;
+                left: 512px;
                 top: 0;
                 height: 100%;
                 width: 2px;
@@ -14,9 +14,15 @@
                 background: blue;
             }
             .timeline {
-                overflow: scroll;
+                overflow: hidden;
                 width: 1050px;
                 position: relative;
+            }
+
+            .cached{
+                position: absolute;
+                left: -9999px;
+                top: -9999px;
             }
         </style>
     </head>
@@ -26,25 +32,12 @@
 
         <div class="timeline">
             <div class="cursor" id="wave-cursor"></div>
-            <canvas id="wave" width="28000" height="256"></canvas>
+            <canvas id="wave" width="1024" height="256"></canvas>
         </div>
-
-        <p>
-            The preloaded sound sample is from
-            <a href="http://librivox.org/samples/">http://librivox.org/samples/</a>.
-        </p>
-
-        <p>
-            Drag-n-drop your own sound files to surf them.
-        </p>
-
-        <p>
-            Press <kbd>spacebar</kbd> to play/pause.
-        </p>
-
-        <p>
-            <b>NB:</b> Chrome 19+ is required.
-        </p>
+        <div class="cached">
+            cached waveform
+            <canvas id="cachedWave" height="256"></canvas>
+        </div>
 
         <canvas id='current' width="1024" height="256"></canvas>
 

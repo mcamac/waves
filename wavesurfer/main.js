@@ -7,6 +7,17 @@
 
     webAudio.init();
 
+    var cachedDrawer=Object.create(WaveSurfer.Drawer);
+    cachedDrawer.init(
+        document.querySelector('#cachedWave'),
+        webAudio,
+        {
+        }
+    );
+
+
+    var cachedCanvas=document.querySelector('#cachedWave');
+
     var waveDrawer = Object.create(WaveSurfer.Drawer);
     waveDrawer.init(
         document.querySelector('#wave'),
@@ -17,8 +28,9 @@
             continuous: true
         }
     );
-    waveDrawer.loop();
+    waveDrawer.loop(0, cachedCanvas);
     waveDrawer.bindClick();
+
 
     var rtaDrawer = Object.create(WaveSurfer.Drawer);
     rtaDrawer.init(
@@ -28,7 +40,7 @@
           freq: true
         }
     );
-    rtaDrawer.loop(webAudio.frequency);
+    rtaDrawer.loop(webAudio.frequency,0);
 
 
     var currentDrawer = Object.create(WaveSurfer.Drawer);
@@ -38,7 +50,7 @@
         { color: 'rgba(0,100,150,0.7)' }
 
     );
-    currentDrawer.loop(webAudio.waveform);
+    currentDrawer.loop(webAudio.waveform,0);
 
 
 
@@ -47,14 +59,17 @@
     // draw + load at the same time!
     var loadAudio = function (data) {
         webAudio.loadData(data, function () {
-            waveDrawer.drawBuffer(webAudio.currentBuffer);
+            cachedDrawer.drawBuffer(webAudio.currentBuffer);
+            waveDrawer.cursorStep=cachedDrawer.cursorStep;  
+            waveDrawer.xx=-cachedDrawer.cursorStep;
+            waveDrawer.drawContinuous(cachedCanvas);
         });
     };
 
 
     /* Load file via Ajax. */
     //var audioUrl = 'http://geo-samples.beatport.com//lofi//3366181.LOFI.mp3';
-    var audioUrl= 'http://giraph.mcamac.com/wavesurfer/media/TechHouse2_FX.wav';
+    var audioUrl= 'http://giraph.mcamac.com/wavesurfer/media/test.mp3';
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'arraybuffer';
     xhr.onload = function () { loadAudio(this.response); };

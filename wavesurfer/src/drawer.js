@@ -19,6 +19,8 @@ WaveSurfer.Drawer = {
         }
 
         this.pos = this.maxPos = 0;
+        this.cursorStep=0;
+        this.xx=0;
     },
 
     initCanvas: function (params) {
@@ -34,15 +36,23 @@ WaveSurfer.Drawer = {
 
     drawBuffer: function (buffer) {
         this.frames = (buffer.duration * 1000) / this.FRAME_TIME;
-        this.cursorStep = this.width / this.frames;
-
-        this.cc.clearRect(0, 0, this.width, this.height);
-
-        var len = this.width,
+        
+        var k = 180,
             h = ~~(this.height / 2),
-            k = ~~(buffer.length / this.width),
+            len = ~~(buffer.length / k),
             lW = 1,
             i, value, chan;
+
+
+        var thisbox= document.querySelector('#cachedWave');
+        thisbox.width=len;
+        this.width=len;
+        
+        console.log(this.width);
+        this.cursorStep = this.width / this.frames;
+        console.log('csstep'+this.cursorStep);
+        this.cc.clearRect(0, 0, this.width, this.height);
+
 
         var slice = Array.prototype.slice;
 
@@ -134,57 +144,15 @@ WaveSurfer.Drawer = {
 
         //version3 MAX-MIN
         /* Left channel. */
-        chan = buffer.getChannelData(0);
-
-        console.log(chan[1000]);
-        console.log(Math.max.apply(Math, slice.call(chan,0,100)));
-        console.log(Math.min.apply(Math, slice.call(chan,0,100)));
-        if (chan) {
-
-
-            for (i = 0; i < len; i++) {
-                maxVal = h * Math.max.apply(
-                    Math, slice.call(chan, i * k, (i + 1) * k)
-                );
-                minVal= h * Math.min.apply(
-                    Math, slice.call(chan, i * k, (i + 1) * k)
-                );
-
-
-                    this.cc.fillRect(
-                        i, h-maxVal, lW, 0.5*maxVal-0.5*minVal
-                    );
-                    this.cc.fillRect(
-                        i, h+0.5*(maxVal+minVal),lW,-0.5*maxVal-1.5*minVal
-                    );
-
-            }
-        }
-
-        // //version4 interpolation
-        // /* Left channel. */
         // chan = buffer.getChannelData(0);
 
-        // console.log(Math.max.apply(Math, slice.call(chan,5000,5200)));
-        // console.log(Math.min.apply(Math, slice.call(chan,5000,5200)));
+        // console.log(chan[1000]);
+        // console.log(Math.max.apply(Math, slice.call(chan,0,100)));
+        // console.log(Math.min.apply(Math, slice.call(chan,0,100)));
         // if (chan) {
 
 
-        //             this.cc.beginPath();
-        //             this.cc.moveTo(0,h);
-
-
         //     for (i = 0; i < len; i++) {
-        //         var temp=[]; templength=2*h;
-        //         while (templength--){
-        //             temp[templength]=0;
-        //         }
-
-        //         for(j = i * k; j < (i+1) * k; j++){
-        //             chan[j]
-        //         }
-
-
         //         maxVal = h * Math.max.apply(
         //             Math, slice.call(chan, i * k, (i + 1) * k)
         //         );
@@ -192,31 +160,66 @@ WaveSurfer.Drawer = {
         //             Math, slice.call(chan, i * k, (i + 1) * k)
         //         );
 
-        //         if(Math.abs(maxVal)>=Math.abs(minVal)){
 
-        //             this.cc.lineTo(i*lW, h-maxVal);
-        //             // this.cc.fillRect(
-        //             //     i, h-maxVal, lW, 0.5*maxVal-0.5*minVal
-        //             // );
-        //             // this.cc.fillRect(
-        //             //     i, h+0.5*(maxVal+minVal),lW,0.5*(maxVal-minVal)
-        //             // );
-        //         }
+        //             this.cc.fillRect(
+        //                 i, h-maxVal, lW, 0.5*maxVal-0.5*minVal
+        //             );
+        //             this.cc.fillRect(
+        //                 i, h+0.5*(maxVal+minVal),lW,-0.5*maxVal-1.5*minVal
+        //             );
 
-        //         else{
-
-        //             this.cc.lineTo(i*lW, h-minVal);
-        //             // this.cc.fillRect(
-        //             //     i, h-0.5*(maxVal+minVal), lW, 0.5*(maxVal-minVal)
-        //             // );
-        //             // this.cc.fillRect(
-        //             //     i, h+minVal, lW, 0.5*(maxVal-minVal)
-        //             // );
-
-        //         }
         //     }
-        //     this.cc.stroke();
         // }
+
+        //version4 interpolation
+        /* Left channel. */
+        chan = buffer.getChannelData(0);
+
+        console.log(Math.max.apply(Math, slice.call(chan,5000,5200)));
+        console.log(Math.min.apply(Math, slice.call(chan,5000,5200)));
+
+        var waveImage=this.cc.createImageData(this.width, this.height);
+
+        if (chan) {
+
+            for (i = 0; i < len; i++) {
+                var temp=[]; templength=2*h;
+                while (templength--){
+                    temp[templength]=0;
+                }
+
+                for(j = i * k; j < (i+1) * k; j++){
+                    if (chan[j]>=0){
+                        temp[h-(~~(chan[j]*h))]++;
+                    }
+                    else{
+                        temp[h+(~~(-(chan[j]*h)))]++;
+                    }
+                }
+                
+                //console.log(temp);
+                
+                for(y=0; y<waveImage.height; y++){
+                    var index=(y*waveImage.width+i)*4;
+                    //a way to color the data
+                    waveImage.data[index]=0;
+                    waveImage.data[index+1]=0;
+                    waveImage.data[index+2]=200;
+                    if (temp[y]){
+                        var alpha=100+~~(155*(temp[y]/k));
+                        waveImage.data[index+3]=Math.min(255,alpha);
+                        //better way to assign alpha values
+
+                    }
+                    else{
+                        waveImage.data[index+3]=0;
+                    }
+                }
+
+            }
+            this.cc.putImageData(waveImage,0,0);
+
+        }
 
 
         },
@@ -227,24 +230,28 @@ WaveSurfer.Drawer = {
             if (!self.webAudio.currentBuffer) {
                 return;
             }
-            var canvasPosition = this.getBoundingClientRect();
-            var relX = e.pageX - canvasPosition.left;
+            // var canvasPosition = this.getBoundingClientRect();
+            // var relX = e.pageX - canvasPosition.left;
 
-            var secondsPlayed = self.setCursor(relX);
+            // var secondsPlayed = self.setCursor(relX);
 
-            self.webAudio.play(secondsPlayed);
+            // self.webAudio.play(secondsPlayed);
+            self.webAudio.paused ? self.webAudio.play() : self.webAudio.pause(); 
         }, false);
     },
 
-    loop: function (dataFn) {
+    loop: function (dataFn, cachedCanvas) {
         var self = this;
 
         function loop() {
             if (!self.webAudio.paused) {
                 if (dataFn) {
                     var data = dataFn.call(self.webAudio);
+                    self.drawFn(data);
                 }
-                self.drawFn(data);
+                if(cachedCanvas){
+                    self.drawFn(cachedCanvas);
+                }
             }
             requestAnimationFrame(loop, self.canvas)
         };
@@ -286,6 +293,7 @@ WaveSurfer.Drawer = {
         var minutes = d.getMinutes();
         var seconds = d.getSeconds();
 
+        //move the cursor
         if (this.cursor) {
             this.cursor.style.left = pos + 'px';
             this.cursor.title = minutes + ':' + seconds;
@@ -294,9 +302,27 @@ WaveSurfer.Drawer = {
         return msPlayed / 1000; // seconds played
     },
 
-    drawContinuous: function (data) {
-        if (this.pos < this.width) {
-            this.setCursor(this.pos + this.cursorStep);
+    drawContinuous: function (cachedCanvas) {
+        this.cachedCanvas=cachedCanvas;
+
+        //update the current region from the cached / this could potentially do zooming too
+        this.cc.clearRect(0,0,this.width, this.height);
+        
+        var zoomfactor=10 || this.zoomfactor;
+
+        this.xx=this.xx+(this.cursorStep);
+
+
+        if(~~(this.xx)<~~(zoomfactor*this.width/2)){
+            this.cc.drawImage(this.cachedCanvas,0,0,(~~(zoomfactor*this.width/2+this.xx)-1),this.height,~~(this.width/2-this.xx/zoomfactor),0,~~(this.width/2+this.xx/zoomfactor)-1,this.height);
+
         }
+        else{
+            this.cc.drawImage(this.cachedCanvas,~~(this.xx-zoomfactor*this.width/2),0,zoomfactor*this.width,this.height,0,0,this.width,this.height);
+        }
+
+        //deal with the ending
+
+
     }
 };
