@@ -181,6 +181,7 @@ WaveSurfer.Drawer = {
         if (chan) {
 
             for (i = 0; i < len; i++) {
+                
                 var temp=[]; templength=2*h;
                 while (templength--){
                     temp[templength]=0;
@@ -195,8 +196,9 @@ WaveSurfer.Drawer = {
                     }
                 }
                 
-                //console.log(temp);
-                
+                if(i<100){
+                console.log(temp);
+                }
                 for(y=0; y<waveImage.height; y++){
                     var index=(y*waveImage.width+i)*4;
                     //a way to color the data
@@ -218,6 +220,7 @@ WaveSurfer.Drawer = {
 
             console.log('gets here');
             this.cc.putImageData(waveImage,0,0);
+            console.log('and here');
 
         }
 
