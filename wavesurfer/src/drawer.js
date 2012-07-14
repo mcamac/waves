@@ -180,7 +180,7 @@ WaveSurfer.Drawer = {
 
         if (chan) {
 
-            for (i = 0; i < 200; i++) {
+            for (i = 0; i < len; i++) {
                 
                 var temp=[]; templength=2*h;
                 while (templength--){
@@ -195,10 +195,10 @@ WaveSurfer.Drawer = {
                         temp[h+(~~(-(chan[j]*h)))]++;
                     }
                 }
-                
-                if(i<100){
-                console.log(temp);
-                }
+                //dbg
+                // if(i<100){
+                // console.log(temp);
+                // }
 
                 for(y=0; y<waveImage.height; y++){
                     var index=(y*waveImage.width+i)*4;
@@ -207,9 +207,10 @@ WaveSurfer.Drawer = {
                     waveImage.data[index+1]=0;
                     waveImage.data[index+2]=200;
                     if (temp[y]){
-                        if(i==85){
-                        console.log('i'+i+',y'+y+',temp[y]'+temp[y]);
-                        }
+                        //dbg
+                        // if(i==85){
+                        // console.log('i'+i+',y'+y+',temp[y]'+temp[y]);
+                        // }
                         var alpha=100+~~(155*(temp[y]/k));
                         waveImage.data[index+3]=Math.min(255,alpha);
                         //better way to assign alpha values
