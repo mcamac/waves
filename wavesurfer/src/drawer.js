@@ -254,7 +254,7 @@ WaveSurfer.Drawer = {
 
         //beginning
         if(~~(this.xx)<~~(zoomfactor*this.width/2)){
-            console.log('beginning'+canvasid);
+            //console.log('beginning'+canvasid);
             //no stitches
             if(true){
 
@@ -273,7 +273,7 @@ WaveSurfer.Drawer = {
 
         //end
         else if(~~(this.xx+zoomfactor*this.width/2)>this.cachsize*(this.cachedCanvasArray.length-1)+this.cachedCanvasArray[this.cachedCanvasArray.length-1].width){
-            console.log('end'+canvasid);
+            //console.log('end'+canvasid);
             //no stitches
             if(true){
                 this.cachedCanvas=this.cachedCanvasArray[canvasid];
@@ -305,14 +305,14 @@ WaveSurfer.Drawer = {
             //no stitches
             if(xxleft>=0 && xxright<=this.cachedCanvasArray[canvasid].width){
                 
-                console.log('nostitch'+canvasid);
+                //console.log('nostitch'+canvasid);
                 
                 this.cc.drawImage(this.cachedCanvasArray[canvasid],xxleft,0,zoomfactor*this.width,this.height,0,0,this.width,this.height);
             }
             //both stitch
             else if (xxleft<0 && xxright>this.cachedCanvas.width){
                 
-                console.log('bothstitch'+canvasid);
+                //console.log('bothstitch'+canvasid);
                 
                 this.cc.drawImage(this.cachedCanvas,0,0,this.cachedCanvas.width,this.height,~~(this.width/2 - (xxcurrent)/zoomfactor),0,~~this.cachedCanvas.width/zoomfactor, this.height);
                 var tempVal1=xxleft;
@@ -341,7 +341,7 @@ WaveSurfer.Drawer = {
             //left stitch
             else if (xxleft<0){
                 
-                console.log('left stitch'+canvasid);
+                //console.log('left stitch'+canvasid);
                 
                 var tempVal=xxleft;
                 this.cc.drawImage(this.cachedCanvas,0,0, ~~(zoomfactor*this.width/2 +(this.xx - this.cachsize *canvasid)),this.height, ~~(this.width/2 -(this.xx - this.cachsize *canvasid)/zoomfactor), 0, ~~(this.width/2 +(this.xx - this.cachsize *canvasid)/zoomfactor),this.height);
@@ -357,7 +357,7 @@ WaveSurfer.Drawer = {
             //right stitch
             else{
                 
-                console.log('right stitch'+canvasid);
+                //console.log('right stitch'+canvasid);
                 
                 var tempVal=xxright;
                 this.cc.drawImage(this.cachedCanvas, ~~(this.xx-this.cachsize*canvasid-zoomfactor*this.width/2),0,this.cachedCanvas.width-~~(this.xx-this.cachsize*canvasid-zoomfactor*this.width/2), this.height, 0,0, ~~(this.cachedCanvas.width-(this.xx-this.cachsize*canvasid-zoomfactor*this.width/2))/zoomfactor,this.height);
