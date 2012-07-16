@@ -57,7 +57,7 @@ WaveSurfer.Drawer = {
             lW = 1,
             i, value, chan;
         
-        
+        document.getElementById('cachedbox').innerHTML = "";
         //need to be cached in blocks of this.cachsize
         this.canvasArray=[];
         for (cachno=0; cachno<=~~(len/this.cachsize); cachno++){
