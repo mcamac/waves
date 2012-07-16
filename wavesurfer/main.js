@@ -60,7 +60,9 @@
 
         webAudio.loadData(data, function () {
             cachedDrawer.drawBuffer(webAudio.currentBuffer);
-            waveDrawer.cursorStep=cachedDrawer.cursorStep;  
+
+            waveDrawer.cursorStep=cachedDrawer.cursorStep;
+            console.log(waveDrawer.cursorStep);
             waveDrawer.xx=-cachedDrawer.cursorStep;
             waveDrawer.drawContinuous(cachedDrawer.canvasArray);
             waveDrawer.loop(0, cachedDrawer.canvasArray);
