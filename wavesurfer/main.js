@@ -49,7 +49,7 @@
     );
     currentDrawer.loop(webAudio.waveform,0);
 
-
+    var loopEnable=true;
 
     /* Load handler. */
     //fix this so that we don't have to wait for the entire file to load before drawing begins 
@@ -65,7 +65,11 @@
             console.log(waveDrawer.cursorStep);
             waveDrawer.xx=-cachedDrawer.cursorStep;
             waveDrawer.drawContinuous(cachedDrawer.canvasArray);
-
+            if(loopEnable){
+                console.log('loop');
+                waveDrawer.loop(0, cachedDrawer.canvasArray);
+                loopEnable=false;
+            }
 
         });
     };
@@ -80,7 +84,6 @@
     xhr.open('GET', audioUrl, true);
     xhr.send();
 
-    waveDrawer.loop(0, cachedDrawer.canvasArray);
 
 
     /* Load file via drag'n'drop. */
