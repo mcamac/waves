@@ -70,6 +70,9 @@
                 waveDrawer.loop(0, cachedDrawer.canvasArray);
                 loopEnable=false;
             }
+            else{
+                waveDrawer.cachedCanvasArray=cachedDrawer.canvasArray;
+            }
 
         });
     };
