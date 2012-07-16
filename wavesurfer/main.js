@@ -65,7 +65,6 @@
             console.log(waveDrawer.cursorStep);
             waveDrawer.xx=-cachedDrawer.cursorStep;
             waveDrawer.drawContinuous(cachedDrawer.canvasArray);
-            waveDrawer.loop(0, cachedDrawer.canvasArray);
 
 
         });
@@ -80,6 +79,8 @@
     xhr.onload = function () { loadAudio(this.response); };
     xhr.open('GET', audioUrl, true);
     xhr.send();
+
+    waveDrawer.loop(0, cachedDrawer.canvasArray);
 
 
     /* Load file via drag'n'drop. */
