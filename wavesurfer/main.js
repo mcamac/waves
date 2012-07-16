@@ -9,14 +9,12 @@
 
     var cachedDrawer=Object.create(WaveSurfer.Drawer);
     cachedDrawer.init(
-        document.querySelector('#cachedWave'),
+        null,
         webAudio,
-        {
+        { cached: true
         }
     );
 
-
-    var cachedCanvas=document.querySelector('#cachedWave');
 
     var waveDrawer = Object.create(WaveSurfer.Drawer);
     waveDrawer.init(
@@ -28,7 +26,6 @@
             continuous: true
         }
     );
-    waveDrawer.loop(0, cachedCanvas);
     waveDrawer.bindClick();
 
 
@@ -59,13 +56,16 @@
     // draw + load at the same time!
     var loadAudio = function (data) {
 
-        //fix some glitches load while playing
+        //fix some glitches w loading while playing
 
         webAudio.loadData(data, function () {
             cachedDrawer.drawBuffer(webAudio.currentBuffer);
             waveDrawer.cursorStep=cachedDrawer.cursorStep;  
             waveDrawer.xx=-cachedDrawer.cursorStep;
-            waveDrawer.drawContinuous(cachedCanvas);
+            waveDrawer.drawContinuous(cachedDrawer.canvasArray);
+            waveDrawer.loop(0, cachedDrawer.canvasArray);
+
+
         });
     };
 
