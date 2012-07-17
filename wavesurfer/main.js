@@ -27,6 +27,7 @@
         }
     );
     waveDrawer.bindClick();
+    waveDrawer.loop();
 
 
     var rtaDrawer = Object.create(WaveSurfer.Drawer);
@@ -49,7 +50,6 @@
     );
     currentDrawer.loop(webAudio.waveform,0);
 
-    var loopEnable=true;
 
     /* Load handler. */
     //fix this so that we don't have to wait for the entire file to load before drawing begins 
@@ -65,10 +65,6 @@
             waveDrawer.cachedCanvasArray = cachedDrawer.canvasArray;
             waveDrawer.xx=-cachedDrawer.cursorStep;
             waveDrawer.drawContinuous(cachedDrawer.canvasArray);
-            if(loopEnable){
-                waveDrawer.loop();
-                loopEnable=false;
-            }
         });
     };
 
