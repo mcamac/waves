@@ -14,6 +14,7 @@ WaveSurfer.Drawer = {
         else if (params.continuous) {
             this.cursor = params.cursor;
             this.drawFn = this.drawContinuous;
+            this.cachedCanvasArray;
             this.initCanvas(params);
 
         } else if (params.freq){
@@ -237,8 +238,8 @@ WaveSurfer.Drawer = {
         return msPlayed / 1000; // seconds played
     },
 
-    drawContinuous: function (cachedCanvasArray) {
-        this.cachedCanvasArray=cachedCanvasArray;
+    drawContinuous: function () {
+        
 
         //update the current region from the cached / this could potentially do zooming too
 
