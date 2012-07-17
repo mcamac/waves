@@ -62,18 +62,13 @@
             cachedDrawer.drawBuffer(webAudio.currentBuffer);
 
             waveDrawer.cursorStep=cachedDrawer.cursorStep;
-            console.log(waveDrawer.cursorStep);
+            waveDrawer.cachedCanvasArray = cachedDrawer.canvasArray;
             waveDrawer.xx=-cachedDrawer.cursorStep;
             waveDrawer.drawContinuous(cachedDrawer.canvasArray);
             if(loopEnable){
-                console.log('loop');
-                waveDrawer.loop(0, cachedDrawer.canvasArray);
+                waveDrawer.loop();
                 loopEnable=false;
             }
-            else{
-                waveDrawer.cachedCanvasArray=cachedDrawer.canvasArray;
-            }
-
         });
     };
 

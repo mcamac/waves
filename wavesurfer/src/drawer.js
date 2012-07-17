@@ -174,7 +174,7 @@ WaveSurfer.Drawer = {
 
     },
 
-    loop: function (dataFn, cachedCanvasArray) {
+    loop: function (dataFn) {
         var self = this;
         
         function loop() {
@@ -184,8 +184,8 @@ WaveSurfer.Drawer = {
                     self.drawFn(data);
                 }
                 
-                if(cachedCanvasArray){
-                    self.drawFn(cachedCanvasArray);
+                else{
+                    self.drawFn(this.cachedCanvasArray);
                 }
             }
             requestAnimationFrame(loop, self.canvas)
